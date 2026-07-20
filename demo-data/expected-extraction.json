@@ -1,0 +1,24 @@
+{
+  "flight": {
+    "type": "flight",
+    "provider": "Example Air",
+    "confirmation_number": "AB12CD",
+    "departure_airport": "DEL",
+    "arrival_airport": "LHR",
+    "departure_local": "2026-09-18T02:30:00+05:30",
+    "departure_time_zone": "Asia/Kolkata",
+    "arrival_local": "2026-09-18T07:30:00+01:00",
+    "arrival_time_zone": "Europe/London",
+    "source_document": "flight-confirmation.txt",
+    "confidence": 0.97,
+    "requires_review": false
+  },
+  "hotel_checkout": {
+    "value": "2026-09-22T11:00:00+01:00",
+    "time_zone": "Europe/London",
+    "source_document": "hotel-confirmation.txt",
+    "confidence": 0.73,
+    "requires_review": true,
+    "reason": "The confirmation states checkout is between 10:00 AM and noon."
+  }
+}

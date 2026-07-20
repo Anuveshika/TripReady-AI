@@ -1,0 +1,12 @@
+EXAMPLE AIR — BOOKING CONFIRMATION
+
+Passenger: Anika Rao
+Booking reference: AB12CD
+Flight: AI 161
+Date: Friday, 18 September 2026
+Departure: Delhi (DEL), Terminal 3 — 02:30 Asia/Kolkata
+Arrival: London Heathrow (LHR), Terminal 2 — 07:30 Europe/London
+Cabin: Economy
+Status: Confirmed
+
+This is fictional sample data created for the TripReady demonstration.

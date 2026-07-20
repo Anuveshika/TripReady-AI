@@ -1,0 +1,11 @@
+THE HOXTON SOUTHWARK — RESERVATION CONFIRMATION
+
+Guest: Anika Rao
+Confirmation: HX7021
+Address: 40 Blackfriars Road, London
+Check-in: Friday, 18 September 2026 after 3:00 PM Europe/London
+Check-out: Tuesday, 22 September 2026 between 10:00 AM and noon Europe/London
+Stay: 4 nights
+
+The checkout wording is intentionally ambiguous for the confidence-review demo.
+This is fictional sample data created for TripReady.

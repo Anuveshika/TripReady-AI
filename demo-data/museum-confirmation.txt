@@ -1,0 +1,13 @@
+VICTORIA AND ALBERT MUSEUM — TIMED ENTRY
+
+Lead visitor: Anika Rao
+Reference: VA-1400-918
+Date: Friday, 18 September 2026
+Entry time: 2:00 PM Europe/London
+Location: Cromwell Road, London
+Visitors: 2
+Status: Confirmed
+
+Note for the demo: the associated flight is expected to arrive at Heathrow at 1:10 PM,
+making this entry unrealistic after immigration, baggage collection, and transfer time.
+This is fictional sample data created for TripReady.

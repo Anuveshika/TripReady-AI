@@ -1,0 +1,11 @@
+EUROSTAR E-TICKET
+
+Passenger: Anika Rao
+Booking reference: EU84K2
+Train: 9022
+Date: Tuesday, 22 September 2026
+Departure: London St Pancras International — 10:31 Europe/London
+Arrival: Paris Gare du Nord — 13:50 Europe/Paris
+Status: Confirmed
+
+This is fictional sample data created for the TripReady demonstration.
