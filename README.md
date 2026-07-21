@@ -175,11 +175,10 @@ Time arithmetic, identity enforcement, persistence, and verified provider facts 
 │   └── tripready-app.tsx        # Main interactive product experience
 ├── db/
 │   ├── schema.ts                # Trips, reservations, documents, provenance
-│   └── migrations/              # Versioned database migrations
+│   └── index.ts/                # Versioned database index
 ├── demo-data/                   # Fictional, sanitized booking samples
 ├── docs/
 │   ├── ARCHITECTURE.md          # Deeper technical and design explanation
-│   └── DEMO_VIDEO.md            # Suggested product-demo sequence
 ├── public/
 │   └── og.png                   # Social preview / project thumbnail
 ├── tests/                       # Product and architecture invariant tests
@@ -389,6 +388,113 @@ A public repository may include the Codex session identifier required by a submi
 - Add offline encrypted document access
 - Expand evaluation fixtures for time zones, delays, duplicate bookings, and ambiguous confirmations
 - Add observability, rate limiting, audit logs, data retention, and deletion controls
+
+## Future work and production roadmap
+
+TripReady is an early-stage MVP and **not yet a complete travel-management or booking platform**. The current repository proves the main product idea, interaction model, AI boundary, and safety approach, but substantial engineering, product validation, security work, and provider integration are still required before it should handle real traveler documents or make changes to real reservations.
+
+This section intentionally documents the unfinished work so that contributors, reviewers, and future maintainers can distinguish the demonstrated experience from the intended production system. The order below reflects the recommended implementation priority; it is not a promise that every item will ship.
+
+### Phase 1 — Complete the core data and document pipeline
+
+- Implement tenant-scoped create, read, update, and delete routes for trips, travelers, reservations, documents, and itinerary segments.
+- Add authenticated uploads to private R2 storage with file-size limits, MIME-type validation, malware scanning, checksums, and short-lived signed retrieval URLs.
+- Build production document processing for PDFs, email text, screenshots, and image-based tickets without relying on demo-only fixtures.
+- Add strict structured extraction for flights, hotels, trains, activities, restaurants, insurance, and ground transfers.
+- Preserve field-level provenance, including the source document, page or excerpt, extraction timestamp, model or parser version, confidence score, and reviewer state.
+- Add a review workspace for uncertain fields rather than silently accepting low-confidence values.
+- Reconcile duplicate confirmations, updated bookings, cancellations, multiple travelers, and inconsistent reservation details.
+- Create reliable import failure states, retry behavior, and user-visible explanations when a document cannot be processed.
+
+### Phase 2 — Build deterministic trip intelligence
+
+- Move conflict detection from demonstration state into a tested domain service that does not depend on free-form model output.
+- Add configurable operational buffers for immigration, baggage collection, airport transfers, security, boarding, hotel check-in and checkout, and accessibility needs.
+- Expand time-zone handling for daylight-saving transitions, overnight travel, international date changes, multi-city trips, and provider records that omit an explicit zone.
+- Model dependencies between itinerary items so a delay can identify every affected transfer, booking, reminder, and document.
+- Add alternative-plan scoring based on feasibility, cost, travel time, traveler preferences, cancellation rules, and reservation flexibility.
+- Distinguish confirmed facts, calculated estimates, user assumptions, and AI suggestions throughout the interface.
+- Add deterministic budget calculations, currency conversion timestamps, and clear handling of taxes, deposits, refunds, and shared expenses.
+
+### Phase 3 — Integrate verified travel data through provider adapters
+
+- Add map, place, routing, public-transport, opening-hours, and travel-time providers behind replaceable adapter interfaces.
+- Add verified flight and train status providers with timestamps, source attribution, cache policies, and graceful fallback behavior.
+- Compare live provider updates with imported booking records without overwriting the original source evidence.
+- Add notification triggers for material changes while avoiding repetitive or low-confidence alerts.
+- Clearly mark stale, unavailable, estimated, and conflicting provider data.
+- Use official, timestamped sources for entry, visa, health, and travel-advisory information; GPT-5.6 should summarize that material rather than invent or independently decide requirements.
+- Document provider quotas, geographic coverage, commercial terms, failure modes, and substitution strategy before production deployment.
+
+### Phase 4 — Strengthen GPT-5.6 orchestration and evaluation
+
+- Replace broad assistant prompts with versioned, task-specific workflows for conflict explanation, disruption impact, itinerary comparison, packing assistance, and next-action guidance.
+- Add strict tool schemas and explicit permission boundaries for every action the model can propose.
+- Defend against prompt injection and malicious instructions embedded inside uploaded confirmations, PDFs, emails, and web content.
+- Ground model responses in authorized trip data and verified sources, with source references visible to the traveler.
+- Add confidence-aware behavior that asks for review or states that evidence is insufficient instead of guessing.
+- Build an evaluation suite for extraction accuracy, conflict recall, time-zone correctness, groundedness, unsupported claims, action safety, and traveler usefulness.
+- Record prompt version, model version, latency, token usage, tool calls, and user corrections without logging raw sensitive content.
+- Use anonymized, synthetic, or explicitly consented examples to expand the evaluation set from real failure patterns.
+- Define a tested fallback strategy for model outages, timeouts, malformed outputs, rate limits, and model-version changes.
+
+### Phase 5 — Privacy, security, and operational readiness
+
+- Implement production authentication, session management, tenant isolation, role-based access, and authorization tests for every server route.
+- Encrypt sensitive data in transit and at rest, and separate private traveler documents from public application assets.
+- Add account export, document retention controls, trip deletion, full account deletion, and verifiable cleanup of derived records and object-storage files.
+- Redact confirmation numbers, personal identifiers, and document content from logs, analytics, error tracking, and support tooling.
+- Add audit records for imports, corrections, shares, assistant recommendations, approvals, and every external write attempt.
+- Add request validation, rate limits, abuse protection, cost budgets, dependency scanning, secret scanning, backup procedures, and disaster-recovery tests.
+- Perform threat modeling and security review for shared links, uploaded files, prompt injection, cross-tenant access, signed URLs, and provider credentials.
+- Publish clear privacy, retention, support, and incident-response policies before accepting real traveler data.
+
+### Phase 6 — Improve the traveler experience
+
+- Add an encrypted offline travel wallet for essential tickets, addresses, emergency contacts, and the next itinerary steps.
+- Add resilient background synchronization and clear conflict resolution when the traveler edits data on multiple devices.
+- Add optional push and email notifications with quiet hours, urgency levels, and per-trip controls.
+- Support group trips with traveler roles, ownership of tasks, shared and private documents, and per-person itinerary views.
+- Persist read-only share links with expiration, revocation, access logs, and carefully limited fields.
+- Add localization for languages, date formats, units, currencies, addresses, and right-to-left layouts.
+- Meet accessibility requirements for keyboard navigation, screen readers, contrast, reduced motion, zoom, and low-connectivity use.
+- Add traveler preference profiles for mobility, dietary needs, children, older travelers, pacing, cost, and preferred transport.
+- Improve correction flows so user edits can update the itinerary safely without losing the original extracted value or evidence.
+
+### Phase 7 — External actions only after the trust layer is proven
+
+TripReady may eventually help a traveler contact a provider, change a reservation, or complete a booking. These capabilities should be introduced only after the read-only and recommendation workflows are reliable.
+
+Before enabling any external write action:
+
+- Require a final, explicit confirmation showing the provider, traveler, exact change, price difference, policy impact, and irreversible consequences.
+- Use narrowly scoped provider tools rather than allowing the model unrestricted access.
+- Make every operation idempotent so retries cannot create duplicate bookings, messages, or charges.
+- Record request, approval, provider response, and final reconciliation in an audit log.
+- Re-check availability and price immediately before confirmation.
+- Provide a safe recovery path for partial failures and uncertain provider responses.
+- Never claim that an action succeeded until the provider returns verifiable confirmation.
+- Keep payments in a compliant external checkout flow; do not store raw card data in TripReady.
+- Continue to support a recommendation-only mode for travelers who do not want autonomous or provider-connected features.
+
+### Quality gates before a real-user pilot
+
+A production pilot should not begin until the team can demonstrate that:
+
+- Every private record and document is protected by tested tenant authorization.
+- Uploaded files are validated, scanned, stored privately, and removable through a verified deletion workflow.
+- Time-zone, daylight-saving, overnight, and international-date-line cases are covered by automated tests.
+- AI answers are grounded in authorized trip data or clearly identified verified sources and state when evidence is insufficient.
+- All external actions are approval-gated, idempotent, auditable, and disabled by default.
+- Extraction and conflict-detection quality are measured against a documented evaluation set and release threshold.
+- Logs and telemetry exclude raw documents, full confirmation codes, credentials, and unnecessary personal information.
+- The product has monitored error rates, latency, model usage, provider health, security alerts, backup status, and cost limits.
+- Accessibility and mobile/offline behavior have been tested with representative users and devices.
+- A small, consent-based pilot has validated that the product reduces planning effort without creating unsafe confidence or additional confusion.
+
+### Longer-term opportunities
+
+Once the core platform is reliable, possible extensions include accessibility-first planning, family travel coordination, collaborative budgets, weather-aware packing, loyalty-program organization, insurance-document assistance, disruption claim preparation, and enterprise travel-policy support. These are future opportunities rather than current product claims.
 
 ## Contributing
 
