@@ -2,8 +2,6 @@
 
 > **Upload your bookings. Get a realistic, conflict-free trip that adapts when plans change.**
 
-![TripReady product preview](public/og.png)
-
 TripReady is a mobile-first travel operations workspace built with **Codex** and powered by **GPT-5.6** through the OpenAI Responses API. It converts fragmented booking confirmations into one reviewable itinerary, adds operational context such as transfers and time zones, detects schedule risks, and helps the traveler re-plan safely when a delay affects the trip.
 
 The current repository is a polished, interactive MVP centered on a fictional five-day London trip. It is designed to be easy to run for reviewers: the core demo works without external credentials, while an OpenAI API key enables the live TripReady assistant.
@@ -211,7 +209,7 @@ Some directories may differ slightly as the project evolves. Keep this map synch
 ### Windows PowerShell
 
 ```powershell
-git clone <YOUR_REPOSITORY_URL>
+git clone <https://github.com/Anuveshika/TripReady-AI>
 Set-Location tripready-ai
 npm ci
 Copy-Item .env.example .env.local
@@ -223,7 +221,7 @@ Open `http://localhost:3000`.
 ### macOS or Linux
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone <https://github.com/Anuveshika/TripReady-AI>
 cd tripready-ai
 npm ci
 cp .env.example .env.local
@@ -406,10 +404,8 @@ Read `AGENTS.md` before making changes. Preserve the project’s approval, prove
 
 ## Submission links
 
-- **Public repository:** `<PASTE_GITHUB_REPOSITORY_URL>`
+- **Public repository:** `https://github.com/Anuveshika/TripReady-AI`
 - **Demo video:** `https://youtu.be/zozG20Nfpx8`
-- **Codex session ID:** `019f7e42-272c-7282-8fd5-01a69bc1888a`
-- **Codex feedback command:** `/feedback 019f7e42-272c-7282-8fd5-01a69bc1888a`
 
 Remove any link or identifier that is not required by the submission platform before general publication.
 
